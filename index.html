@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>瑞成智慧茶園 - 總覽</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-green-50 text-gray-800 font-sans p-6 min-h-screen">
+    <div class="max-w-6xl mx-auto">
+        <header class="flex justify-between items-end mb-8 border-b-2 border-green-600 pb-4">
+            <div>
+                <h1 class="text-3xl font-bold text-green-900">🌿 瑞成智慧茶園 (總覽)</h1>
+                <p class="text-sm text-gray-500 mt-2">南投名間鄉 (C0I410)</p>
+            </div>
+            <div class="space-x-2">
+                <a href="index.html" class="px-3 py-1 bg-green-600 text-white rounded">總覽</a>
+                <a href="station1.html" class="px-3 py-1 bg-gray-200 rounded">站 1</a>
+                <a href="station2.html" class="px-3 py-1 bg-gray-200 rounded">站 2</a>
+                <a href="station3.html" class="px-3 py-1 bg-gray-200 rounded">站 3</a>
+                <a href="station4.html" class="px-3 py-1 bg-gray-200 rounded">站 4</a>
+            </div>
+        </header>
+
+        <section class="bg-white rounded-xl shadow p-6 mb-8">
+            <h2 class="text-xl font-bold text-green-800 mb-4">🌤️ 氣象資訊</h2>
+            <div class="grid grid-cols-4 gap-4" id="weather-box">載入中...</div>
+        </section>
+
+        <section>
+            <h2 class="text-xl font-bold text-green-800 mb-4">🌱 所有觀測站數據</h2>
+            <div class="grid grid-cols-4 gap-6" id="stations-container">載入中...</div>
+        </section>
+        <div class="text-right mt-4"><span id="update-time" class="text-sm text-gray-500"></span></div>
+    </div>
+
+    <script>
+        async function fetchData() {
+            try {
+                const res = await fetch('data.json?v=' + new Date().getTime());
+                const data = await res.json();
+                
+                if (data.weather) {
+                    document.getElementById('weather-box').innerHTML = `
+                        <div class="bg-blue-50 p-4 rounded">天氣狀況: <b>${data.weather.weather}</b></div>
+                        <div class="bg-red-50 p-4 rounded">氣溫: <b>${data.weather.air_temp} °C</b></div>
+                        <div class="bg-indigo-50 p-4 rounded">濕度: <b>${data.weather.humidity} %</b></div>
+                        <div class="bg-cyan-50 p-4 rounded">降雨量: <b>${data.weather.precip} mm</b></div>
+                    `;
+                }
+                
+                const container = document.getElementById('stations-container');
+                container.innerHTML = '';
+                [1, 2, 3, 4].forEach(sid => {
+                    const st = data.sensors["Station" + sid] || {};
+                    container.innerHTML += `
+                        <div class="bg-white border-t-4 border-green-600 rounded shadow p-4">
+                            <h3 class="font-bold text-lg mb-2">Station ${sid}</h3>
+                            <p>溫度: ${st.soil_temp ?? '-'} °C</p>
+                            <p>濕度: ${st.soil_moisture ?? '-'} %</p>
+                            <p>EC: ${st.ec ?? '-'}</p>
+                            <p>pH: ${st.ph ?? '-'}</p>
+                            <p>N: ${st.n ?? '-'}</p>
+                            <p>P: ${st.p ?? '-'}</p>
+                            <p>K: ${st.k ?? '-'}</p>
+                        </div>
+                    `;
+                });
+                document.getElementById('update-time').innerText = "最後更新: " + data.last_update;
+            } catch (err) { console.error(err); }
+        }
+        fetchData();
+        setInterval(fetchData, 60000);
+    </script>
+</body>
+</html>

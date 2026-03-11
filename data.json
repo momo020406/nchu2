@@ -1,35 +1,57 @@
 {
-  "last_update": "2026-03-11 19:10:27",
+  "last_update": "2026-03-11 19:11:36",
   "weather": {
-    "air_temp": 20.6,
-    "humidity": 62.0,
+    "air_temp": 19.6,
+    "humidity": 65.0,
     "weather": "晴",
     "precip": 0.0,
-    "obs_time": "2026-03-11T18:00:00+08:00",
+    "obs_time": "2026-03-11T19:00:00+08:00",
     "location": "名間"
   },
   "sensors": {
     "Station3": {
       "soil_temp": 20.9,
-      "soil_moisture": 22.2,
+      "soil_moisture": 21.8,
       "ec": 90.0,
       "ph": 5.4,
       "n": 12.0,
       "p": 16.0,
       "k": 40.0,
-      "timestamp": "2026-03-11 19:10:27",
+      "timestamp": "2026-03-11 19:11:36",
       "station_id": 3
     },
     "Station4": {
       "soil_temp": 20.3,
-      "soil_moisture": 18.2,
+      "soil_moisture": 18.3,
       "ec": 117.0,
-      "ph": 4.2,
+      "ph": 4.3,
       "n": 12.0,
       "p": 16.0,
       "k": 41.0,
-      "timestamp": "2026-03-11 19:10:27",
+      "timestamp": "2026-03-11 19:11:36",
       "station_id": 4
+    },
+    "Station1": {
+      "soil_temp": 20.9,
+      "soil_moisture": 22.9,
+      "ec": 118.0,
+      "ph": 5.9,
+      "n": 12.0,
+      "p": 16.0,
+      "k": 41.0,
+      "timestamp": "2026-03-11 19:11:36",
+      "station_id": 1
+    },
+    "Station2": {
+      "soil_temp": 20.9,
+      "soil_moisture": 21.5,
+      "ec": 123.0,
+      "ph": 6.3,
+      "n": 12.0,
+      "p": 16.0,
+      "k": 41.0,
+      "timestamp": "2026-03-11 19:11:36",
+      "station_id": 2
     }
   }
 }

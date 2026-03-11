@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>瑞成智慧茶園 - 站點 4</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-purple-50 text-gray-800 font-sans p-6 min-h-screen">
+    <div class="max-w-4xl mx-auto">
+        <header class="flex justify-between items-end mb-8 border-b-2 border-purple-600 pb-4">
+            <div>
+                <h1 class="text-3xl font-bold text-purple-900">🌿 Station 4 專屬觀測站</h1>
+                <p class="text-sm text-gray-500 mt-2">南投名間鄉 - 站點 4 即時資料</p>
+            </div>
+            <div class="space-x-2">
+                <a href="index.html" class="px-3 py-1 bg-gray-200 rounded">總覽</a>
+                <a href="station1.html" class="px-3 py-1 bg-gray-200 rounded">站 1</a>
+                <a href="station2.html" class="px-3 py-1 bg-gray-200 rounded">站 2</a>
+                <a href="station3.html" class="px-3 py-1 bg-gray-200 rounded">站 3</a>
+                <a href="station4.html" class="px-3 py-1 bg-purple-600 text-white rounded">站 4</a>
+            </div>
+        </header>
+
+        <section class="bg-white rounded-xl shadow p-8 mb-8 text-center text-xl">
+            <h2 class="text-2xl font-bold text-purple-800 mb-6">🌱 土壤數據</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6" id="station-data">
+                載入中...
+            </div>
+            <p id="update-time" class="text-sm text-gray-400 mt-6"></p>
+        </section>
+    </div>
+
+    <script>
+        async function fetchData() {
+            try {
+                const res = await fetch('data.json?v=' + new Date().getTime());
+                const data = await res.json();
+                
+                const st = data.sensors["Station4"] || {};
+                document.getElementById('station-data').innerHTML = `
+                    <div class="p-4 bg-gray-50 rounded shadow-sm border"><b>溫度</b><br><span class="text-2xl text-red-600">${st.soil_temp ?? '-'} °C</span></div>
+                    <div class="p-4 bg-gray-50 rounded shadow-sm border"><b>濕度</b><br><span class="text-2xl text-blue-600">${st.soil_moisture ?? '-'} %</span></div>
+                    <div class="p-4 bg-gray-50 rounded shadow-sm border"><b>EC</b><br><span class="text-2xl text-yellow-600">${st.ec ?? '-'}</span></div>
+                    <div class="p-4 bg-gray-50 rounded shadow-sm border"><b>pH</b><br><span class="text-2xl text-purple-600">${st.ph ?? '-'}</span></div>
+                    <div class="p-4 bg-gray-50 rounded shadow-sm border mt-4"><b>氮 (N)</b><br><span class="text-2xl text-green-700">${st.n ?? '-'}</span></div>
+                    <div class="p-4 bg-gray-50 rounded shadow-sm border mt-4"><b>磷 (P)</b><br><span class="text-2xl text-orange-600">${st.p ?? '-'}</span></div>
+                    <div class="p-4 bg-gray-50 rounded shadow-sm border mt-4"><b>鉀 (K)</b><br><span class="text-2xl text-teal-600">${st.k ?? '-'}</span></div>
+                `;
+                document.getElementById('update-time').innerText = "最後更新: " + data.last_update;
+            } catch (err) { console.error(err); }
+        }
+        fetchData();
+        setInterval(fetchData, 60000);
+    </script>
+</body>
+</html>
